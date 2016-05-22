@@ -1,10 +1,10 @@
-#ifndef ForwardListHeader_H
-#define ForwardListHeader_H
+#ifndef ForwardlistHeader_H
+#define ForwardlistHeader_H
 #include<iostream>
 namespace uj
 {
 	template <typename T>
-	class List{
+	class list{
 	private:
 		//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 		/*
@@ -33,7 +33,7 @@ namespace uj
 		 */
 		class iterator{
 		private:
-			listStruct * previousElement;
+			listStruct* previousElement;
 
 			bool hasNext(){
 				if (previousElement->next != nullptr){
@@ -41,12 +41,11 @@ namespace uj
 				}
 				return false;
 			}
-			T nullObject = NULL;
-
-			T& getNullObject(){
-				nullObject = NULL;
-				return	nullObject;
-			}
+//			T nullObject = NULL;
+//			T& getNullObject(){
+//				nullObject = NULL;
+//				return	nullObject;
+//			}
 
 		public:
 			/*
@@ -70,14 +69,14 @@ namespace uj
 			*/
 			T& operator*()
 			{
-				if (hasNext()){						// TO nale¿y usun¹æ potem
+	//			if (hasNext()){						// TO nale¿y usun¹æ potem
 					listStruct* ls = previousElement->next;
 					return ls->val;
-				}
-				else
-				{
-					return getNullObject();			// TO nale¿y usun¹æ potem
-				}
+//				else
+//				{
+//					return getNullObject();			// TO nale¿y usun¹æ potem
+//				}
+				
 			}
 			iterator& operator++() {
 				previousElement = previousElement->next;
@@ -104,7 +103,6 @@ namespace uj
 				newLS->next = previousElement->next;
 				newLS->val = value;
 				previousElement->next = newLS;
-		
 				return *this;
 			}
 			iterator earse(){
@@ -123,7 +121,7 @@ namespace uj
 		* @return zwraca prawdê je¿eli istnieje kolejny element, w przeciwnm wypadku fa³sz.
 		*/
 		bool hasNext(listStruct* node){
-			if (node->next != nullptr){
+			if ( node->next != nullptr){
 				return true;
 			}
 			return false;
@@ -153,42 +151,75 @@ namespace uj
 			newNode->val = value;
 			node.next = newNode;
 		};
+		void reverse(list & toReverse){
+			iterator b = toReverse.begin();
+			iterator e = toReverse.end();
+			T temp;
+			while(b!=e){
+				toReverse.push_front(*b);
+				b.earse();
+				++b;
+			}
+			
+		}
 		//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 		/*
 		 * konstruktor domyœlny
 		 */
-		List(){
+		list(){
 			node.next = nullptr;
 			_end = &node;
 		}
-		/*
-	List & operator=(const List & other){
 
-			List newCopy;
-			iterator it = newCopy.begin();
+		list(const list & other){
+			node.next = nullptr;
+			iterator it = &node;
 			iterator b = other.begin();
 			iterator e = other.end();
 			while (b!=e)
 			{
 				it = it.insert(*b);
+				++it;
 				++b;
 			}
-			return newCopy;
+			
 		}
-		*/
+
+		list & operator=(const list & other){
+			if(this == &other){
+				return *this;
+			}
+			
+			if(begin() != end()){
+				clear();// musz¿ usun¿¿ dane				
+			}
+			
+			iterator it = &node;
+			iterator b = other.begin();
+			iterator e = other.end();
+			while (b!=e)
+			{
+				it = it.insert(*b);
+				++it;
+				++b;
+			}
+			return *this;
+		}
 		/*
 		* destruktor, niszczy wzystkie stworzone dynamiczne struktury
 		*/
-		~List(){
+		~list(){
 
 			listStruct* tmp = &node;
 			listStruct* tmp2;
 			tmp = tmp->next;
-			while (hasNext(tmp))
-			{
-				tmp2 = tmp->next;
-				delete tmp;
-				tmp = tmp2;
+			if(tmp != nullptr){
+				while (hasNext(tmp))
+				{
+					tmp2 = tmp->next;
+					delete tmp;
+					tmp = tmp2;
+				}
 			}
 		}
 		/* 
@@ -247,7 +278,7 @@ namespace uj
 				it=pos.insert(value);
 				findEnd();
 		}
-			return it;
+			return it = pos.insert(value);
 		}
 		iterator erase(iterator pos){
 			return pos.earse();			

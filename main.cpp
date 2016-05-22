@@ -141,27 +141,36 @@ int main() {
 
 using std::cout;
 using std::cin;
+using std::endl;
 using std::vector;
 
 int main() {
 
-	uj::List<int> neww;
-	uj::List<int> neww2;
-	neww2 = neww;
-	uj::List<int>::iterator it = neww.begin();
+	uj::list<int> neww;
+//	uj::list<int> neww2;
+	uj::list<int>::iterator it;
+	neww.push_front(1);
 	neww.push_front(3);
+	it = neww.begin();
 	cout << *it;
 	it++;
 	cout << *it;
 	neww.insert(it, 5);
-	it = neww.begin();
+	neww.insert(it, 7);
+	neww.insert(it, 9);
+	cout << "Po dodaniu\n";
+	it= neww.begin();
+	cout << *it<<endl;
 	it++;
-	it.earse();
-	it.earse();
-	it.earse();
-	it.earse();
-
-		cout << *it;
+	cout << *it<<endl;
+	it++;
+	cout << *it<<endl;
+	//neww2 = neww;
+	uj::list<int> new3(neww);
+	uj::list<int>::iterator it2 = new3.begin();
+	cout <<"\n############ Teraz kopia z konstruktora ##############\n" <<  *it2 << endl;
+	++it2;
+	cout << *it2 << endl;
 
 	cin.get();
 	cin.get();
