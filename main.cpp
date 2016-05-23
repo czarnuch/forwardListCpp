@@ -146,31 +146,27 @@ using std::vector;
 
 int main() {
 
-	uj::list<int> neww;
-//	uj::list<int> neww2;
+	uj::list<int> listaPierwsza;
 	uj::list<int>::iterator it;
-	neww.push_front(1);
-	neww.push_front(3);
-	it = neww.begin();
-	cout << *it;
-	it++;
-	cout << *it;
-	neww.insert(it, 5);
-	neww.insert(it, 7);
-	neww.insert(it, 9);
+	listaPierwsza.push_front(1);
+	listaPierwsza.push_front(3);
+	it = listaPierwsza.begin();
+	listaPierwsza.insert(it, 9);
 	cout << "Po dodaniu\n";
-	it= neww.begin();
-	cout << *it<<endl;
-	it++;
-	cout << *it<<endl;
-	it++;
-	cout << *it<<endl;
-	//neww2 = neww;
-	uj::list<int> new3(neww);
-	uj::list<int>::iterator it2 = new3.begin();
-	cout <<"\n############ Teraz kopia z konstruktora ##############\n" <<  *it2 << endl;
-	++it2;
-	cout << *it2 << endl;
+
+	while(it!= listaPierwsza.end()){
+		cout << *it<<endl;
+		++it;
+	}
+
+	uj::list<int> listaDruga(listaPierwsza);
+	uj::list<int>::iterator it2 = listaDruga.begin();
+	cout <<"\n############ Teraz kopia z konstruktora ##############\n" << endl;
+	
+	while(it2!= listaDruga.end()){
+		cout << *it2<<endl;
+		++it2;
+	}
 
 	cin.get();
 	cin.get();

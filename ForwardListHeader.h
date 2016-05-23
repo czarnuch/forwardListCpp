@@ -27,6 +27,7 @@ namespace uj
 			_end = temp;
 		}
 	public:
+		
 		//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 		/*
 		 *Klasa iteratora
@@ -48,6 +49,12 @@ namespace uj
 //			}
 
 		public:
+			//Typedefy iteratora
+			typedef std::forward_iterator_tag iterator_category;
+        		typedef T value_type;
+        		typedef std::ptrdiff_t difference_type;
+       			typedef T * pointer;
+        		typedef T & reference;
 			/*
 			* konstruktor domyœlny iteratora
 			*/
@@ -115,6 +122,12 @@ namespace uj
 				return *this;
 			}
 		};
+		//Typedefy klasy listy
+		typedef std::forward_iterator_tag iterator_category;
+	        typedef T value_type;
+	        typedef std::ptrdiff_t difference_type;
+        	typedef T * pointer;
+	        typedef T & reference;
 		/*
 		* Metoda sprawdzaj¹ca czy istnieje kolejny element.
 		* @param node jest to pierwszy element listy
@@ -182,7 +195,7 @@ namespace uj
 				++it;
 				++b;
 			}
-			
+			findEnd();	
 		}
 
 		list & operator=(const list & other){
@@ -203,6 +216,7 @@ namespace uj
 				++it;
 				++b;
 			}
+			findEnd();
 			return *this;
 		}
 		/*
