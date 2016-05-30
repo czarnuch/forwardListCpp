@@ -156,6 +156,7 @@ namespace uj
 		* @param node jest to pierwszy element listy
 		* @return zwraca prawdê je¿eli istnieje kolejny element, w przeciwnm wypadku fa³sz.
 		*/
+		
 		bool hasNext(listStruct* node){
 			if ( node->next != nullptr){
 				return true;
@@ -333,6 +334,7 @@ namespace uj
 			if (pos == end()){
 				it=pos.insert(value);
 				_end= _end->next;
+				return it;
 			}
 			return it = pos.insert(value);
 		}

@@ -159,7 +159,7 @@ int main() {
 		++it;
 	}
 
-	/*uj::list<int> listaDruga(listaPierwsza);
+	uj::list<int> listaDruga(listaPierwsza);
 	uj::list<int>::iterator it2 = listaDruga.begin();
 	cout <<"\n############ Teraz kopia z konstruktora ##############\n" << endl;
 	
@@ -167,7 +167,6 @@ int main() {
 		cout << *it2<<endl;
 		++it2;
 	}
-*/
 	cin.get();
 	cin.get();
 	return(0);
