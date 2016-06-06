@@ -148,9 +148,11 @@ int main() {
 
 	uj::list<int> listaPierwsza;
 	uj::list<int>::iterator it;
-	listaPierwsza.push_front(1);
-	listaPierwsza.push_front(3);
+	//listaPierwsza.push_front(1);
+	//listaPierwsza.push_front(3);
 	it = listaPierwsza.begin();
+	listaPierwsza.insert(it, 7);
+	listaPierwsza.insert(it, 8);
 	listaPierwsza.insert(it, 9);
 	cout << "Po dodaniu\n";
 

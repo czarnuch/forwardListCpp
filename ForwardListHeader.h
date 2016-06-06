@@ -20,7 +20,7 @@ namespace uj
 
 		void findEnd(){
 			listStruct* temp = &node;
-			while (temp!=nullptr)
+			while (temp->next!=nullptr)
 			{
 				temp = temp->next;
 			}
@@ -47,18 +47,20 @@ namespace uj
 //				nullObject = NULL;
 //				return	nullObject;
 //			}
-
+			friend class list;
 		public:
 			typedef std::forward_iterator_tag iterator_category;
         		typedef T value_type;
         		typedef std::ptrdiff_t difference_type;
        			typedef T * pointer;
         		typedef T & reference;
+			typedef const T & const_reference;
 			/*
 			* konstruktor domyslny iteratora
 			*/
 			iterator(){
 				previousElement = nullptr;
+
 			}
 			/*
 			* konstruktor przyjmujacy wskaznik
@@ -121,28 +123,33 @@ namespace uj
 			}
 			/*
 			*Metoda wstawiajaca nowy element do listy
+			*nie dziala w przypadku elementow konca listy
 			*@param value elewent wstawiany
 			*@return zwraca element przed wstawionym elementem
 			*/
 			iterator insert(const T& value) {
-				listStruct* newLS = new listStruct;
-				newLS->next = previousElement->next;
-				newLS->val = value;
-				previousElement->next = newLS;
-				return *this;
+				if(previousElement->next != nullptr){
+					listStruct* newLS = new listStruct;
+					newLS->next = previousElement->next;
+					newLS->val = value;
+					previousElement->next = newLS;
+					return *this;
+				}else
+					return NULL;
 			}
 			/*
 			*Metoda usuwajaca element listy ukryty pod iteratorem
 			*Zwraca iterator na element wskazujacy za usunietym elementem
 			*/
 			iterator earse(){
-				if (!hasNext()){
+				
+				if(previousElement->next != nullptr){
+					listStruct* tmp= previousElement->next->next;
+					delete previousElement->next;
+					previousElement->next = tmp;
+					return *this;
+				}else
 					return NULL;
-				}
-				listStruct* tmp= previousElement->next->next;
-				delete previousElement->next;
-				previousElement->next = tmp;
-				return *this;
 			}
 		};
 		//Typedefy klasy listy
@@ -151,6 +158,7 @@ namespace uj
 	        typedef std::ptrdiff_t difference_type;
         	typedef T * pointer;
 	        typedef T & reference;
+		typedef const T & const_reference;
 		/*
 		* Metoda sprawdzaj¹ca czy istnieje kolejny element.
 		* @param node jest to pierwszy element listy
@@ -162,6 +170,17 @@ namespace uj
 				return true;
 			}
 			return false;
+		}
+		/*
+		* metoda sprawdzajaca czy lista jest pusta
+		* @return zwraca true je¿eli lista pusta 
+		*/
+		bool empty() const{
+			if (node.next == nullptr){
+				return true;
+			}
+			else
+				return false;
 		}
 		/*
 		* Metoda dla const, gwarantuj¹ca niezmiennoœæ obiektu,
@@ -182,12 +201,16 @@ namespace uj
 		*/
 		void push_front(T value){
 			listStruct* newNode = new listStruct;
-			if (!hasNext(&node))
+			newNode->val=value;
+			if(empty()){
+				newNode->next=nullptr;
+				node.next = newNode;
 				_end = newNode;
-			newNode->next = node.next;
-			newNode->val = value;
-			node.next = newNode;
-		};
+			}else{
+				newNode->next = node.next;
+				node.next = newNode;
+			}
+		}
 		/*
 		*Metoda odwracajaca szyk listy
 		*@param toReverse lista do obrocenia
@@ -217,7 +240,7 @@ namespace uj
 		*/
 		list(const list & other){
 			node.next = nullptr;
-			iterator it = &node;
+			iterator it = begin();
 			iterator b = other.begin();
 			iterator e = other.end();
 			while (b!=e)
@@ -312,17 +335,7 @@ namespace uj
 			}
 			node.next = nullptr;
 		}
-		/*
-		* metoda sprawdzajaca czy lista jest pusta
-		* @return zwraca true je¿eli lista pusta 
-		*/
-		bool empty() const{
-			if (hasNext(&node)){
-				return false;
-			}
-			else
-				return true;
-		}
+
 		/*
 		*
 		*@param pos pozycja iteratora po ktorym zostanie dodane nowe ogniwo
@@ -330,13 +343,19 @@ namespace uj
 		*@return
 		*/
 		iterator insert(iterator pos, const T & value){
-			iterator it;
-			if (pos == end()){
-				it=pos.insert(value);
-				_end= _end->next;
-				return it;
+			listStruct* posStruct = pos.previousElement;
+			bool moveEnd=false;
+			if(posStruct->next==nullptr)
+				moveEnd=true;	
+			listStruct* newLS = new listStruct;
+			newLS->next = posStruct->next;
+			newLS->val = value;
+			posStruct->next = newLS;
+	
+			if (moveEnd){
+				_end=newLS;
 			}
-			return it = pos.insert(value);
+			return pos;
 		}
 		/*
 		*Metoda usuwajaca wskazany element listy
@@ -344,7 +363,15 @@ namespace uj
 		*@return zwraca itrerator przed usunietym elementem
 		*/
 		iterator erase(iterator pos){
-			return pos.earse();			
+			listStruct* posStruct = pos.previosElement;
+			if(posStruct->next==nullptr)
+				return NULL;
+			if(posStruct->next->next==nullptr)
+				_end=posStruct;
+			listStruct* tmp= posStruct->next->next;
+			delete posStruct->next;
+			posStruct->next = tmp;		
+			return pos;			
 		}
 	};
 }
