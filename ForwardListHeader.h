@@ -121,13 +121,14 @@ namespace uj
 			bool operator==(const iterator& lhs) const {
 				return (lhs.previousElement == previousElement);
 			}
-			/*
+
+/*
 			*Metoda wstawiajaca nowy element do listy
 			*nie dziala w przypadku elementow konca listy
 			*@param value elewent wstawiany
 			*@return zwraca element przed wstawionym elementem
 			*/
-			iterator insert(const T& value) {
+/*			iterator insert(const T& value) {
 				if(previousElement->next != nullptr){
 					listStruct* newLS = new listStruct;
 					newLS->next = previousElement->next;
@@ -136,12 +137,12 @@ namespace uj
 					return *this;
 				}else
 					return NULL;
-			}
+			}*/
 			/*
 			*Metoda usuwajaca element listy ukryty pod iteratorem
 			*Zwraca iterator na element wskazujacy za usunietym elementem
 			*/
-			iterator earse(){
+			/*iterator earse(){
 				
 				if(previousElement->next != nullptr){
 					listStruct* tmp= previousElement->next->next;
@@ -150,8 +151,9 @@ namespace uj
 					return *this;
 				}else
 					return NULL;
-			}
+			}*/
 		};
+
 		//Typedefy klasy listy
 		typedef std::forward_iterator_tag iterator_category;
 	        typedef T value_type;
@@ -245,7 +247,7 @@ namespace uj
 			iterator e = other.end();
 			while (b!=e)
 			{
-				it = it.insert(*b);
+				it = insert(it, *b);
 				++it;
 				++b;
 			}
@@ -269,7 +271,7 @@ namespace uj
 			iterator e = other.end();
 			while (b!=e)
 			{
-				it = it.insert(*b);
+				it = insert(it, *b);
 				++it;
 				++b;
 			}
