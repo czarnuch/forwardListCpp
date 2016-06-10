@@ -4,34 +4,20 @@
 namespace uj
 {
 	template <typename T>
+	//! Definicja klasy listy
 	class list{
 	private:
-		//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-		/*
-		 *Struktura listy
-		 */
+		
+		//! Struktura listy
 		struct listStruct {
 			T val;
 			listStruct * next;
 		};
-		//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 		listStruct node;
 		listStruct * _end;
 
-		void findEnd(){
-			listStruct* temp = &node;
-			while (temp->next!=nullptr)
-			{
-				temp = temp->next;
-			}
-			_end = temp;
-		}
 	public:
-		
-		//VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-		/*
-		 *Klasa iteratora
-		 */
+		 //! Klasa iteratora
 		class iterator{
 		private:
 			listStruct* previousElement;
@@ -42,12 +28,14 @@ namespace uj
 				}
 				return false;
 			}
-//			T nullObject = NULL;
-//			T& getNullObject(){
-//				nullObject = NULL;
-//				return	nullObject;
-//			}
 			friend class list;
+			/*!
+			* konstruktor przyjmujacy wskaznik
+			* @param element wskaznik na element ktory przypiszemy do iteratora
+			*/
+			iterator(listStruct * element){
+				previousElement = element;
+			}
 		public:
 			typedef std::forward_iterator_tag iterator_category;
         		typedef T value_type;
@@ -55,24 +43,14 @@ namespace uj
        			typedef T * pointer;
         		typedef T & reference;
 			typedef const T & const_reference;
-			/*
-			* konstruktor domyslny iteratora
-			*/
+			
+			//! konstruktor domyslny iteratora
 			iterator(){
 				previousElement = nullptr;
 
 			}
-			/*
-			* konstruktor przyjmujacy wskaznik
-			* @param element wskaznik na element który przypiszemy do iteratora
-			*/
-			iterator(listStruct * element){
-				previousElement = element;
-			}
-			//###### Przeciazanie operatorow ######
-			/*
+			/*!
 			* pobranie wartosci elemmentu kolejnego
-			*
 			* @return true or false
 			*/
 			T& operator*()
@@ -81,14 +59,15 @@ namespace uj
 				return ls->val;
 				
 			}
-			/*
-			*przesowa iterator do przodu o jedno miejesce przeciazenie pre inkrementacji
+			/*!
+			przesowa iterator do przodu o jedno miejesce przeciazenie pre inkrementacji
 			*/
 			iterator& operator++() {
 				previousElement = previousElement->next;
 				return *this;
 			}
-			/*
+			/*!
+			*@param trash parametr podawany w celu odroznienia post inkrementacji
 			*przesowa iterator do przodu o jedno miejesce, przeciazenie post inkrementacji
 			*/
 			iterator operator++(int trash) {
@@ -96,16 +75,15 @@ namespace uj
 				previousElement = previousElement->next;
 				return tmp;
 			}
-			/*
-			*Przeciazenie operatora przypisania
+			/*! Przeciazenie operatora przypisania
 			*@param a itererator ktory zostanie skopiowany
-			**/
-			iterator& operator=(const iterator& a)
+			*/
+			iterator& operator=(const iterator& iter)
 			{
-				previousElement = a.previousElement;
+				previousElement = iter.previousElement;
 				return *this;
 			}
-			/*
+			/*!
 			*Przeciazony operator testu roznosci
 			*@param lhs porownywany iterator
 			*@return zwraca true lub false
@@ -113,7 +91,7 @@ namespace uj
 			bool operator!=(const iterator& lhs) const {
 				return !(lhs.previousElement == previousElement);
 			}
-			/*
+			/*!
 			*Przeciazony operator testu rownosci
 			*@param lhs porownywany iterator
 			*@return zwraca true lub false
@@ -122,49 +100,18 @@ namespace uj
 				return (lhs.previousElement == previousElement);
 			}
 
-/*
-			*Metoda wstawiajaca nowy element do listy
-			*nie dziala w przypadku elementow konca listy
-			*@param value elewent wstawiany
-			*@return zwraca element przed wstawionym elementem
-			*/
-/*			iterator insert(const T& value) {
-				if(previousElement->next != nullptr){
-					listStruct* newLS = new listStruct;
-					newLS->next = previousElement->next;
-					newLS->val = value;
-					previousElement->next = newLS;
-					return *this;
-				}else
-					return NULL;
-			}*/
-			/*
-			*Metoda usuwajaca element listy ukryty pod iteratorem
-			*Zwraca iterator na element wskazujacy za usunietym elementem
-			*/
-			/*iterator earse(){
-				
-				if(previousElement->next != nullptr){
-					listStruct* tmp= previousElement->next->next;
-					delete previousElement->next;
-					previousElement->next = tmp;
-					return *this;
-				}else
-					return NULL;
-			}*/
 		};
 
-		//Typedefy klasy listy
 		typedef std::forward_iterator_tag iterator_category;
 	        typedef T value_type;
 	        typedef std::ptrdiff_t difference_type;
         	typedef T * pointer;
 	        typedef T & reference;
 		typedef const T & const_reference;
-		/*
-		* Metoda sprawdzaj¹ca czy istnieje kolejny element.
+		/*!
+		* Metoda sprawdzajaca czy istnieje kolejny element.
 		* @param node jest to pierwszy element listy
-		* @return zwraca prawdê je¿eli istnieje kolejny element, w przeciwnm wypadku fa³sz.
+		* @return zwraca prawde jezeli istnieje kolejny element, w przeciwnm wypadku falsz.
 		*/
 		
 		bool hasNext(listStruct* node){
@@ -173,9 +120,9 @@ namespace uj
 			}
 			return false;
 		}
-		/*
+		/*!
 		* metoda sprawdzajaca czy lista jest pusta
-		* @return zwraca true je¿eli lista pusta 
+		* @return zwraca true jezeli lista pusta 
 		*/
 		bool empty() const{
 			if (node.next == nullptr){
@@ -184,11 +131,11 @@ namespace uj
 			else
 				return false;
 		}
-		/*
-		* Metoda dla const, gwarantuj¹ca niezmiennoœæ obiektu,
-		* sprawdzaj¹ca czy istnieje kolejny element.
+		/*!
+		* Metoda dla const, gwarantujaca niezmiennosc obiektu,
+		* sprawdzajaca czy istnieje kolejny element.
 		* @param node jest to pierwszy element listy
-		* @return zwraca prawdê je¿eli istnieje kolejny element, w przeciwnm wypadku fa³sz.
+		* @return zwraca prawde jezeli istnieje kolejny element, w przeciwnm wypadku falsz.
 		*/
 		bool hasNext(const listStruct* node) const{
 			if (node->next != nullptr){
@@ -196,9 +143,9 @@ namespace uj
 			}
 			return false;
 		}
-		/*
-		* Metoda dodaj¹ca elementy na pocz¹tek listy
-		* @param value wartoœæ ³añcucha listy
+		/*!
+		* Metoda dodajaca elementy na poczatek listy
+		* @param value wartosc lancucha listy
 		*
 		*/
 		void push_front(T value){
@@ -213,7 +160,7 @@ namespace uj
 				node.next = newNode;
 			}
 		}
-		/*
+		/*!
 		*Metoda odwracajaca szyk listy
 		*@param toReverse lista do obrocenia
 		*/
@@ -228,17 +175,14 @@ namespace uj
 			}
 			
 		}
-		//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-		/*
-		 * konstruktor domyœlny
-		 */
+		//! konstruktor domyslny
 		list(){
 			node.next = nullptr;
 			_end = &node;
 		}
-		/*
+		/*!
 		*Konstruktor tworzacy obiekt na podstawie innej listy
-		*@param inna lista
+		*@param other lista
 		*/
 		list(const list & other){
 			node.next = nullptr;
@@ -250,12 +194,14 @@ namespace uj
 				it = insert(it, *b);
 				++it;
 				++b;
+				if(_end->next!=nullptr)
+					_end=_end->next;
 			}
-			findEnd();	
+			//findEnd();	
 		}
-		/*
-		*Przeciazony operator przypisania, kopiujacy liste
-		*@param inna lista
+		/*!
+		Przeciazony operator przypisania, kopiujacy liste
+		*@param other lista
 		*/
 		list & operator=(const list & other){
 			if(this == &other){
@@ -263,7 +209,7 @@ namespace uj
 			}
 			
 			if(begin() != end()){
-				clear();// musz¿ usun¿¿ dane				
+				clear();// musze usunac dane				
 			}
 			
 			iterator it = &node;
@@ -274,13 +220,14 @@ namespace uj
 				it = insert(it, *b);
 				++it;
 				++b;
+				if(_end->next!=nullptr)
+					_end=_end->next;
 			}
-			findEnd();
+			//findEnd();
 			return *this;
 		}
-		/*
-		* destruktor, niszczy wzystkie stworzone dynamiczne struktury
-		*/
+		
+		//! destruktor, niszczy wzystkie stworzone dynamiczne struktury
 		~list(){
 
 			listStruct* tmp = node.next;
@@ -294,9 +241,9 @@ namespace uj
 				}
 			}
 		}
-		/* 
-		* metoda zwracaj¹ca wielkoœæ listy
-		* @return wielkoœæ listy
+		/*! 
+		 metoda zwracajaca wielkosc listy
+		* @return wielkosc listy
 		*/
 		size_t size() const{
 			const listStruct* tmp = &node;
@@ -307,14 +254,14 @@ namespace uj
 			}
 			return count;
 		}
-		/*
-		* metoda zwracaj¹ca iterator do pierwszego elementu
+		/*!
+		* metoda zwracajaca iterator do pierwszego elementu
 		* @return iterator do pierwszego elementu
 		*/
 		iterator begin() const {
 			return iterator((listStruct*)&node);
 		}
-		/*
+		/*!
 		*Metoda zwracajaca iterator na ostatni element
 		*@return zwraca iterator
 		*/
@@ -322,7 +269,8 @@ namespace uj
 			return iterator(_end);
 		}
 
-		/*
+		//!
+		/*!
 		* metoda czyszczaca liste
 		*/
 		void clear(){
@@ -338,8 +286,8 @@ namespace uj
 			node.next = nullptr;
 		}
 
-		/*
-		*
+		/*!
+		sluzy do wstawiania wartosci
 		*@param pos pozycja iteratora po ktorym zostanie dodane nowe ogniwo
 		*@param value wartosc wstawiana
 		*@return
@@ -359,9 +307,9 @@ namespace uj
 			}
 			return pos;
 		}
-		/*
+		/*!
 		*Metoda usuwajaca wskazany element listy
-		*@param przyjmuje miejsce po którym zostanie usuniety element
+		*@param pos przyjmuje miejsce po ktorym zostanie usuniety element
 		*@return zwraca itrerator przed usunietym elementem
 		*/
 		iterator erase(iterator pos){

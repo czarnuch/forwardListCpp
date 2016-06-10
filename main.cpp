@@ -161,7 +161,7 @@ int main() {
 		++it;
 	}
 
-	uj::list<int> listaDruga(listaPierwsza);
+	uj::list<int> listaDruga = listaPierwsza;
 	uj::list<int>::iterator it2 = listaDruga.begin();
 	cout <<"\n############ Teraz kopia z konstruktora ##############\n" << endl;
 	
