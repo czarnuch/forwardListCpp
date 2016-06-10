@@ -108,6 +108,7 @@ namespace uj
         	typedef T * pointer;
 	        typedef T & reference;
 		typedef const T & const_reference;
+		typedef size_t size_type;
 		/*!
 		* Metoda sprawdzajaca czy istnieje kolejny element.
 		* @param node jest to pierwszy element listy
@@ -245,7 +246,7 @@ namespace uj
 		 metoda zwracajaca wielkosc listy
 		* @return wielkosc listy
 		*/
-		size_t size() const{
+		size_type size() const{
 			const listStruct* tmp = &node;
 			size_t count=0;
 			while (hasNext(tmp)){
