@@ -22,12 +22,6 @@ namespace uj
 		private:
 			listStruct* previousElement;
 
-			bool hasNext(){
-				if (previousElement->next != nullptr){
-					return true;
-				}
-				return false;
-			}
 			friend class list;
 			/*!
 			* konstruktor przyjmujacy wskaznik
@@ -110,18 +104,6 @@ namespace uj
 		typedef const T & const_reference;
 		typedef size_t size_type;
 		/*!
-		* Metoda sprawdzajaca czy istnieje kolejny element.
-		* @param node jest to pierwszy element listy
-		* @return zwraca prawde jezeli istnieje kolejny element, w przeciwnm wypadku falsz.
-		*/
-		
-		bool hasNext(listStruct* node){
-			if ( node->next != nullptr){
-				return true;
-			}
-			return false;
-		}
-		/*!
 		* metoda sprawdzajaca czy lista jest pusta
 		* @return zwraca true jezeli lista pusta 
 		*/
@@ -131,18 +113,6 @@ namespace uj
 			}
 			else
 				return false;
-		}
-		/*!
-		* Metoda dla const, gwarantujaca niezmiennosc obiektu,
-		* sprawdzajaca czy istnieje kolejny element.
-		* @param node jest to pierwszy element listy
-		* @return zwraca prawde jezeli istnieje kolejny element, w przeciwnm wypadku falsz.
-		*/
-		bool hasNext(const listStruct* node) const{
-			if (node->next != nullptr){
-				return true;
-			}
-			return false;
 		}
 		/*!
 		* Metoda dodajaca elementy na poczatek listy
@@ -171,7 +141,7 @@ namespace uj
 			T temp;
 			while(b!=e){
 				toReverse.push_front(*b);
-				b.earse();
+				erase(b);
 				++b;
 			}
 			
@@ -234,7 +204,7 @@ namespace uj
 			listStruct* tmp = node.next;
 			listStruct* tmp2;
 			if(tmp != nullptr){
-				while (hasNext(tmp))
+				while (tmp->next!=nullptr)
 				{
 					tmp2 = tmp->next;
 					delete tmp;
@@ -249,7 +219,7 @@ namespace uj
 		size_type size() const{
 			const listStruct* tmp = &node;
 			size_t count=0;
-			while (hasNext(tmp)){
+			while (tmp->next!=nullptr){
 				tmp = tmp->next;
 				count++;
 			}
@@ -278,13 +248,14 @@ namespace uj
 			listStruct* tmp = &node;
 			listStruct* tmp2;
 			tmp = tmp->next;
-			while (hasNext(tmp))
+			while (tmp->next!=nullptr)
 			{
 				tmp2 = tmp->next;
 				delete tmp;
 				tmp = tmp2;
 			}
 			node.next = nullptr;
+			_end= &node;
 		}
 
 		/*!
@@ -314,7 +285,7 @@ namespace uj
 		*@return zwraca itrerator przed usunietym elementem
 		*/
 		iterator erase(iterator pos){
-			listStruct* posStruct = pos.previosElement;
+			listStruct* posStruct = pos.previousElement;
 			if(posStruct->next==nullptr)
 				return NULL;
 			if(posStruct->next->next==nullptr)

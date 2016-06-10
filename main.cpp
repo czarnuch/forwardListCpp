@@ -34,6 +34,27 @@ int main() {
 		cout << *it2<<endl;
 		++it2;
 	}
+	cout <<"\n#### Teraz czyścimy za pomoca clear i to samo co po tescie kopii ####\n" << endl;
+	listaDruga.clear();
+	it2 = listaDruga.begin();
+	cout << "\nRozmiar listy:   " << listaDruga.size() << "\n";
+
+	while(it2!= listaDruga.end()){
+		cout << *it2<<endl;
+		++it2;
+	}
+	cout <<"\n#### Teraz dodaje 2 elementy i jeden kasuje ####\n" << endl;
+	
+	it2 = listaDruga.begin();
+	listaDruga.insert(it2,77);
+	listaDruga.push_front(22);
+	listaDruga.erase(it2);
+	it2 = listaDruga.begin();
+while(it2!= listaDruga.end()){
+		cout << *it2<<endl;
+		++it2;
+	}
+
 	cin.get();
 	cin.get();
 	return(0);
