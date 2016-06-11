@@ -1,5 +1,5 @@
-#ifndef ForwardlistHeader_H
-#define ForwardlistHeader_H
+#ifndef UJ_LIST_HPP
+#define UJ_LIST_HPP
 #include<iostream>
 namespace uj
 {
