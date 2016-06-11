@@ -1,6 +1,17 @@
 #ifndef UJ_LIST_HPP
 #define UJ_LIST_HPP
 #include<iostream>
+
+/*! 
+ *  \brief     Forward List
+ *  \details   Kontener listy jednokierunkowej
+ *  \author    Adam Zajac
+ *  \version   1.0
+ *  \date      2016
+ *  \warning   Uzywasz aplikacji na wlasne ryzyko
+ */
+
+
 namespace uj
 {
 	template <typename T>
@@ -135,7 +146,6 @@ namespace uj
 		}
 		//! Odwrócenenie szyku
 		/*!	Metoda pozwalająca odwrócić szyk listy
-		*@param toReverse lista do obrocenia
 		*/
 		void reverse(){
 			iterator b = begin();
@@ -251,7 +261,7 @@ namespace uj
 		//! Iterator konca
 		/*!
 		*Metoda zwracajaca iterator na ostatni element
-		*@return zwraca iterator
+		*@return zwraca iterator od ostatniego elementu, wskazujacy za liste
 		*/
 		iterator end() const{
 			return iterator(_end);
@@ -278,7 +288,7 @@ namespace uj
 		Metoda sluzy do wstawiania wartosci za iteratorem
 		*@param pos pozycja iteratora po ktorym zostanie dodane nowe ogniwo
 		*@param value wartosc wstawiana
-		*@return
+		*@return pozycja iteratora wskazujacym na wartosc elementu dodanego
 		*/
 		iterator insert(iterator pos, const T & value){
 			listStruct* posStruct = pos.previousElement;
@@ -298,7 +308,7 @@ namespace uj
 		//! Usuwanie elementu
 		/*! Metoda usuwajaca wskazany przez iterator element listy
 		*@param pos przyjmuje miejsce po ktorym zostanie usuniety element
-		*@return zwraca itrerator przed usunietym elementem
+		*@return zwraca itrerator wskazujący na wartosc za usuniętym
 		*/
 		iterator erase(iterator pos){
 			listStruct* posStruct = pos.previousElement;

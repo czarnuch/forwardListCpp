@@ -1,24 +1,33 @@
 #include<iostream>
 #include <typeinfo>
-
 #include <cppunit/ui/text/TestRunner.h>
 #include <cppunit/TestFixture.h>
 #include <cppunit/TestAssert.h>
 #include <cppunit/TestResult.h>
-//#include <cppunit/TestCase.h>
 #include <cppunit/TestCaller.h>
-//#include <cppunit/CompilerOutputter.h>
-//#include <cppunit/XmlOutputter.h>
 
 #include"uj_list.hpp"
+
+/*! 
+ *  \brief     Unit test for forward list
+ *  \details   Aplikacja testujaca liste jednokierunkowa
+ *  \author    Adam Zajac
+ *  \version   1.0
+ *  \date      2016
+ *  \warning   Uzywasz aplikacji na wlasne ryzyko
+ */
 
 using std::cout;
 using std::cin;
 using std::endl;
 
+//! Definicja klasy testow
 class List_test : public CppUnit::TestCase {
 public:
-	
+		
+			//! Testy wstawiania
+			/*! Testowana jest metoda insert
+			*/
 	void insertingMethodsTest1(){
 		int a=111;
 		int b=222;
@@ -40,6 +49,10 @@ public:
 			CPPUNIT_ASSERT_EQUAL(a ,*it);
 			
 	}	
+	
+			//! Testy wstawiania
+			/*! Testowana jest metoda push_front
+			*/
 	void insertingMethodsTest2(){
 		int a=111;
 		int b=222;
@@ -56,6 +69,11 @@ public:
 			++it;
 			CPPUNIT_ASSERT_EQUAL(a ,*it);
 	}
+	
+			//! Testy konstruktora
+			/*! Testowana jest poprawnosc dzialania konstruktara 
+			* list(size_t n ,const T& value)
+			*/
 	void constructorsTest1(){
 		const double x = 1.0;
 		size_t sz= 1000;
@@ -75,6 +93,11 @@ public:
 			}
 		CPPUNIT_ASSERT_EQUAL(double(sz)*x, suma );	
 	}
+		
+			//! Testy konstruktora
+			/*! Testowana jest poprawnosc dzialania konstruktara 
+			* list(const list & other)
+			*/
 	void constructorsTest2(){
 			uj::list<int> listaPierwsza;
 			int silnia=0;
@@ -90,6 +113,11 @@ public:
 				it2++;
 			}	
 		}
+				
+			//! Testy przypisania
+			/*! Testowana jest poprawnosc dzialania przeciazonego operatora przypisania 
+			* list & operator=(const list & other)  
+			*/
 		void assignmentListOperatorTest(){
 			uj::list<int> listaPierwsza;
 			int silnia=0;
@@ -112,6 +140,9 @@ public:
 			}
 				CPPUNIT_ASSERT_EQUAL(temp , silnia);			
 		}
+			//! Testy funkcji odwracajacej
+			/*! Testowana jest poprawnosc dzialania metody odwracajacej szyk listy 
+			*/
 		void reverseTest(){
 			uj::list<int> lista;
 			for(int i=0; i<=10 ; i++){
@@ -125,6 +156,9 @@ public:
 				++it;
 			}
 		}
+			//! Testy usuwania elementow
+			/*! Testowana jest poprawnosc wykonywania usuwania elementow listy
+			*/
 		void earseTest(){
 			int a=111;
 			int b=222;
@@ -141,6 +175,10 @@ public:
 			it = lista.begin();
 			CPPUNIT_ASSERT_EQUAL(*it,333);
 		}
+			//! Testy funkcji czyszczacej liste oraz test metody empty
+			/*! Testowana jest poprawnosc czyszczenia elementow listy oraz metoda empty
+			*/
+			
 		void clearAndEmptyTest(){
 			std::string x = "Ala ma koteł";
 			size_t sz= 1000;
@@ -148,6 +186,9 @@ public:
 			lista.clear();
 			CPPUNIT_ASSERT_EQUAL(true, lista.empty());
 		}
+		//! Testy pobrania rozmiaru
+			/*! Testowana jest poprawnosc danych podawanych przez metode size
+			*/
 		void sizeTest(){
 			double x = 7.0;
 			size_t sz= 1000;
