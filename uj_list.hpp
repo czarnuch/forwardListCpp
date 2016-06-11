@@ -84,7 +84,7 @@ namespace uj
 			}
 			//! Przeciążenie =
 			/*! Pozwala na przypisywanie iteratorow do siebie
-			*@param a itererator ktory zostanie skopiowany
+			*@param iter itererator ktory zostanie skopiowany
 			*/
 			iterator& operator=(const iterator& iter)
 			{
